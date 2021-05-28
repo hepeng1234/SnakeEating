@@ -104,15 +104,46 @@ Snake.prototype.init = function() {
 //用来获取蛇头下一个位置对应的元素，以及要做的事件
 Snake.prototype.getNextPos = function() {
 	var nextPos = [this.head.x / sw + this.directionNum.x, this.head.y / sh + this.directionNum.y]
-	
+
 	//下个点是自己，游戏结束
-	
+	var selfCollied = false
+	this.pos.forEach(function(value) {
+		if (nextPos[0] == value[0] && nextPos[1] == value[1]) {
+			selfCollied = true
+			this.strategise.die(this.getNextPos)
+		}
+	})
+	if (selfCollied) {
+		console.log("撞到自己了")
+		this.strategise.die(this)
+		return
+	}
 	//下个点是围墙，游戏结束
-	
+	if (nextPos[0] < 0 || nextPos[1] < 0 || nextPos[0] > td - 1 || nextPos[1] > tr - 1) {
+		console.log("撞墙了")
+		console.log(this)
+		this.strategise.die(this)
+		return
+	}
 	//下个点是苹果，吃，身体增加一个，走下一步
-	
+
 	//下个点为空，走下一步
+	this.strategise.move.call(this)
 }
+
+//处理碰撞后的事件
+Snake.prototype.strategise = {
+	move() {
+		console.log('move',this)
+	},
+	eat() {
+		console.log('eat')
+	},
+	die() {
+		console.log('die',this)
+	}
+}
+
 
 
 snake = new Snake()
