@@ -123,7 +123,7 @@ Snake.prototype.getNextPos = function() {
 
 //处理碰撞后的事件
 Snake.prototype.strategise = {
-	move(format = true) { //format判断是否删除蛇尾
+	move(format = true) { //format判断是否删除蛇尾,不删则增加身体
 		console.log('move')
 		//创建新身体
 		var newBody = new Square(this.head.x / sw, this.head.y / sh, 'snakeBody')
@@ -246,17 +246,17 @@ Game.prototype.stop = function() {
 
 game = new Game()
 
-$(".startBtn>button").on('click', function() {
+$(".startBtn>button").on('click', () => {
 	game.init()
 	$(".startBtn").css('display', 'none')
 })
-$("#snakeWrap").on('click', function() {
+$("#snakeWrap").on('click', () => {
 	console.log('暂停')
 	game.stop()
 	$(".pauseBtn").css('display', 'block')
 })
 
-$(".pauseBtn>button").on('click', function() {
+$(".pauseBtn>button").on('click', () => {
 	game.start()
 	$(".pauseBtn").css('display', 'none')
 })
